@@ -6,7 +6,6 @@
   "repository": "https://github.com/Privy-Photos/authorized.git",
   "author": "Aureliano Alarcon @aurealarcon Michael Kirsanov @lofimichael",
   "license": "MIT",
-  "private": false,
   "files": [
     "/contracts/**/*.sol"
   ],
