@@ -4,7 +4,7 @@ pragma solidity ^0.8.18;
 
 import { IAuthorized } from "./interfaces/IAuthorized.sol";
 
-contract Authorized is IAuthorized {
+abstract contract Authorized is IAuthorized {
     constructor() {
         /// @notice Add the deployer as an authorized admin
         authorizedAdmins[msg.sender] = true;

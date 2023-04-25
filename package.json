@@ -1,10 +1,9 @@
 {
   "name": "@privylabs/authorized",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Authorized contract for Solidity",
-  "main": "index.js",
   "repository": "https://github.com/Privy-Photos/authorized.git",
-  "author": "Aureliano Alarcon @aurealarcon Michael Kirsanov @lofimichael",
+  "author": "Aureliano Alarcon @aurealarcon and Michael Kirsanov @lofimichael",
   "license": "MIT",
   "files": [
     "/contracts/**/*.sol"

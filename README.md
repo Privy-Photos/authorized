@@ -1,13 +1,40 @@
-# Sample Hardhat Project
+# Authorized
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+This package is an extension to to be used to register/manage Admins and operators to control the desired functions in a Smart Contract. 
 
-Try running some of the following tasks:
+Install:
 
 ```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+npm install @privylabs/authorized
+yarn add @privylabs/authorized
 ```
+
+Usage:
+```shell
+import { Authorized } from "@privylabs/authorized/contracts/Authorized.sol";
+```
+
+The deployer waller will be registered as the root Admin
+```shell
+constructor() {
+        /// @notice Add the deployer as an authorized admin
+        authorizedAdmins[msg.sender] = true;
+    }
+```
+More admins can be managed at:
+
+```shell
+setAuthorizedAdmin(address _admin, bool status)
+```
+
+To magane Operators:
+
+```shell
+setAuthorizedOperator(address _operator, bool status)
+```
+
+Use the modifiers ```onlyAuthorizedAdmin onlyAuthorizedOperator``` to secure functions:
+
+
+```shell
+function foo( string  _var ) external onlyAuthorizedOperator ...
