@@ -1,5 +1,5 @@
 {
-  "name": "authorized",
+  "name": "@privylabs/authorized",
   "version": "1.0.0",
   "description": "Authorized contract for Solidity",
   "main": "index.js",
