@@ -1,12 +1,25 @@
 {
   "name": "authorized",
   "version": "1.0.0",
-  "description": "Authorized contract fro Solidity",
+  "description": "Authorized contract for Solidity",
   "main": "index.js",
   "repository": "https://github.com/Privy-Photos/authorized.git",
   "author": "Aureliano Alarcon @aurealarcon Michael Kirsanov @lofimichael",
   "license": "MIT",
   "private": true,
+  "files": [
+    "/contracts/**/*.sol"
+  ],
+  "scripts": {
+    "node": "hardhat node",
+    "test": "hardhat test",
+    "test:gas": "REPORT_GAS=true npx hardhat test",
+    "coverage": "REPORT_COVERAGE=true npx hardhat coverage",
+    "lint": "npm run lint:js && npm run lint:sol",
+    "lint:js": "eslint --ignore-path .gitignore . --fix",
+    "lint:sol": "prettier --write \"contracts/**/*.sol\"",
+    "update-version": "scripts/release/update-version.js"
+  },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
     "@ethersproject/providers": "^5.4.7",
