@@ -7,8 +7,11 @@ import { IAuthorized } from "./interfaces/IAuthorized.sol";
 abstract contract Authorized is IAuthorized {
     constructor() {
         /// @notice Add the deployer as an authorized admin
-        authorizedAdmins[msg.sender] = true;
+        owner = msg.sender;
     }
+
+    /// @notice the owner of the contract
+    address private owner;
 
     /// @notice A mapping storing authorized admins
     /// @dev admin address => authorized status
@@ -18,9 +21,25 @@ abstract contract Authorized is IAuthorized {
     /// @dev operator address => authorized status
     mapping (address => bool) private authorizedOperators;
 
+    /// @notice Modifier to ensure caller is owner
+    modifier onlyOwner() {
+        if (msg.sender != owner) {
+            revert Unauthorized();
+        }
+        _;
+    }
+
     /// @dev Modifier to ensure caller is authorized admin
     modifier onlyAuthorizedAdmin() {
         if (!authorizedAdmins[msg.sender]) {
+            revert Unauthorized();
+        }
+        _;
+    }
+
+    /// @dev Modifier to ensure caller is owner or authorized admin
+    modifier onlyOwnerOrAuthorizedAdmin() {
+        if (msg.sender != owner && !authorizedAdmins[msg.sender]) {
             revert Unauthorized();
         }
         _;
@@ -35,13 +54,25 @@ abstract contract Authorized is IAuthorized {
     }
 
     /// @inheritdoc IAuthorized
-    function setAuthorizedAdmin(address _admin, bool status) public virtual onlyAuthorizedAdmin {
+    function transferOwnership(address newOwner) external onlyOwner {
+        /// check if address is not null
+        require(newOwner != address(0), "Authorized System: New owner cannot be null");
+        /// check if address is not the same as owner
+        require(newOwner != owner, "Authorized System: New owner cannot be the same as old owner");
+        /// check if address is not the same as operator
+        require(!authorizedOperators[owner], "Authorized System: Owner cannot be an operator");
+
+        /// update the owner
+        owner = newOwner;
+    }
+
+    /// @inheritdoc IAuthorized
+    function setAuthorizedAdmin(address _admin, bool status) public virtual onlyOwnerOrAuthorizedAdmin {
         /// check if address is not null
         require(_admin != address(0), "Authorized System: Admin address cannot be null");
         /// check if address is not the same as operator
         require(!authorizedOperators[_admin], "Authorized System: Admin cannot be an operator");
-        /// check if address is human
-        /// require(_admin == tx.origin, "Authorized System: Admin address must be human");
+        
         /// update the admin status
         authorizedAdmins[_admin] = status;
         emit SetAdmin(_admin);

@@ -16,6 +16,10 @@ interface IAuthorized {
     /// @notice Event emmited when a new authOperator is added
     event SetAuthOperator(address indexed authOperator);
 
+    /// @notice Transfer ownership of the contract to a new account (`newOwner`).
+    /// @param newOwner The address to transfer ownership to.
+    function transferOwnership(address newOwner) external;
+
     /// @notice Add an authorized admin
     /// @param _admin address of the admin
     /// @param status status of the admin
