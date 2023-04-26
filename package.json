@@ -1,6 +1,6 @@
 {
   "name": "@privylabs/authorized",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Authorized contract for Solidity",
   "repository": "https://github.com/Privy-Photos/authorized.git",
   "author": "Aureliano Alarcon @aurealarcon and Michael Kirsanov @lofimichael",
