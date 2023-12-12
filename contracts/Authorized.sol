@@ -83,12 +83,17 @@ abstract contract Authorized is IAuthorized {
     }
 
     /// @inheritdoc IAuthorized
-    function getAuthorizedAdmin(address _admin) external view virtual returns (bool) {
+    function getAuthorizedAdmin(address _admin) public view virtual returns (bool) {
         return authorizedAdmins[_admin];
     }
 
     /// @inheritdoc IAuthorized
-    function getAuthorizedOperator(address _operator) external view virtual returns (bool) {
+    function getAuthorizedOperator(address _operator) public view virtual returns (bool) {
         return authorizedOperators[_operator];
+    }
+
+    /// @inheritdoc IAuthorized
+    function getOwner() public view virtual override returns (address) {
+        return owner;
     }
 }
