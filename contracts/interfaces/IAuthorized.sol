@@ -39,4 +39,7 @@ interface IAuthorized {
     /// @param _operator address of the operator
     /// @return status of the operator
     function getAuthorizedOperator(address _operator) external view returns (bool);
+
+    /// @notice Get the owner
+    function getOwner() external view returns (address);
 }

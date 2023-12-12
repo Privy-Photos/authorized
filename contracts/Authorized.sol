@@ -31,14 +31,6 @@ abstract contract Authorized is IAuthorized {
 
     /// @dev Modifier to ensure caller is authorized admin
     modifier onlyAuthorizedAdmin() {
-        if (!authorizedAdmins[msg.sender]) {
-            revert Unauthorized();
-        }
-        _;
-    }
-
-    /// @dev Modifier to ensure caller is owner or authorized admin
-    modifier onlyOwnerOrAuthorizedAdmin() {
         if (msg.sender != owner && !authorizedAdmins[msg.sender]) {
             revert Unauthorized();
         }
@@ -47,7 +39,7 @@ abstract contract Authorized is IAuthorized {
 
     /// @dev Modifier to ensure caller is authorized operator
     modifier onlyAuthorizedOperator() {
-        if (!authorizedOperators[msg.sender]) {
+        if (msg.sender != owner && !authorizedAdmins[msg.sender] && !authorizedOperators[msg.sender]) {
             revert Unauthorized();
         }
         _;
@@ -67,7 +59,7 @@ abstract contract Authorized is IAuthorized {
     }
 
     /// @inheritdoc IAuthorized
-    function setAuthorizedAdmin(address _admin, bool status) public virtual onlyOwnerOrAuthorizedAdmin {
+    function setAuthorizedAdmin(address _admin, bool status) public virtual onlyAuthorizedAdmin {
         /// check if address is not null
         require(_admin != address(0), "Authorized System: Admin address cannot be null");
         /// check if address is not the same as operator
@@ -91,12 +83,17 @@ abstract contract Authorized is IAuthorized {
     }
 
     /// @inheritdoc IAuthorized
-    function getAuthorizedAdmin(address _admin) external view virtual returns (bool) {
+    function getAuthorizedAdmin(address _admin) public view virtual returns (bool) {
         return authorizedAdmins[_admin];
     }
 
     /// @inheritdoc IAuthorized
-    function getAuthorizedOperator(address _operator) external view virtual returns (bool) {
+    function getAuthorizedOperator(address _operator) public view virtual returns (bool) {
         return authorizedOperators[_operator];
+    }
+
+    /// @inheritdoc IAuthorized
+    function getOwner() public view virtual override returns (address) {
+        return owner;
     }
 }
